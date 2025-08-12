@@ -1,43 +1,28 @@
-import { useState } from "react";
 import { Field, Information } from "./components";
+import { store } from "./store";
+import { useState } from "react";
 import "./App.css";
 
-const GameLayout = ({ state }) => {
-  const resetGame = () => {
-    state.setCurrentPlayer("X");
-    state.setIsGameEnded(false);
-    state.setField(["", "", "", "", "", "", "", "", ""]);
-    state.setIsDraw(false);
-  };
-
-  return (
-    <>
-      <Information state={state}></Information>
-      <Field state={state}></Field>
-      <button onClick={resetGame.bind(null)}> Начать заоново</button>
-    </>
-  );
-};
+const GameLayout = () => (
+  <>
+    <Information></Information>
+    <Field></Field>
+  </>
+);
 
 export const Game = () => {
-  const [currentPlayer, setCurrentPlayer] = useState("X");
-  const [isGameEnded, setIsGameEnded] = useState(false);
-  const [isDraw, setIsDraw] = useState(false);
-  const [field, setField] = useState(["", "", "", "", "", "", "", "", ""]);
-  const state = {
-    currentPlayer,
-    setCurrentPlayer,
-    isGameEnded,
-    setIsGameEnded,
-    isDraw,
-    setIsDraw,
-    field,
-    setField,
+  const [game, setGame] = useState(false);
+  store.dispatch({ type: "render", payload: setGame });
+
+  const resetGame = () => {
+    setGame((prev) => !prev);
+    store.dispatch({ type: "resetGame" });
   };
 
   return (
     <>
-      <GameLayout state={state}></GameLayout>
+      <GameLayout setGame={setGame}></GameLayout>
+      <button onClick={resetGame}> Начать заоново</button>
     </>
   );
 };

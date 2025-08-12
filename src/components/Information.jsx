@@ -1,21 +1,27 @@
-const InformationLayout = ({ state }) => {
-  return (
-    <>
-      <h1>
-        {state.isGameEnded
-          ? `Победа:${state.currentPlayer}`
-          : state.isDraw
-          ? `Ничья`
-          : `Ход:${state.currentPlayer}`}
-      </h1>
-    </>
-  );
-};
+import { store } from "../store";
 
-export const Information = ({ state }) => {
+const InformationLayout = ({ currentPlayer, isGameEnded, isDraw }) => (
+  <>
+    <h1>
+      {isGameEnded
+        ? `Победа:${currentPlayer}`
+        : isDraw
+        ? `Ничья`
+        : `Ход:${currentPlayer}`}
+    </h1>
+  </>
+);
+
+export const Information = () => {
+  const { currentPlayer, isGameEnded, isDraw } = store.getState();
+
   return (
     <>
-      <InformationLayout state={state}></InformationLayout>
+      <InformationLayout
+        currentPlayer={currentPlayer}
+        isGameEnded={isGameEnded}
+        isDraw={isDraw}
+      ></InformationLayout>
     </>
   );
 };

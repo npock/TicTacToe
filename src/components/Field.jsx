@@ -1,4 +1,51 @@
-const FieldLayout = ({ state }) => {
+import { store } from "../store";
+
+const FieldLayout = ({ field, handleClickField, checkWin }) => (
+  <>
+    <div className="field">
+      {field.map((item, index) => {
+        return (
+          <div
+            key={index}
+            className="button"
+            onClick={() => handleClickField(index, checkWin)}
+          >
+            {item}
+          </div>
+        );
+      })}
+    </div>
+  </>
+);
+
+export const Field = () => {
+  const { field, render } = store.getState();
+
+  const handleClickField = (index, checkWin) => {
+    const { field, currentPlayer } = store.getState();
+    const newField = [...field];
+    newField[index] = currentPlayer;
+
+    const spaces = newField.filter((item) => item === "").length;
+
+    const win = checkWin(newField, currentPlayer);
+    if (win) {
+      store.dispatch({ type: "setIsGameEnded", payload: true });
+    } else if (win === false && spaces === 0) {
+      store.dispatch({ type: "setIsDraw", payload: true });
+    } else {
+      store.dispatch({
+        type: "setCurrentPlayer",
+        payload: currentPlayer === "X" ? "0" : "X",
+      });
+    }
+    store.dispatch({
+      type: "setField",
+      payload: newField,
+    });
+    render((prev) => !prev);
+  };
+
   const checkWin = (fields, currentPlayer) => {
     const WIN_PATTERNS = [
       [0, 1, 2],
@@ -18,45 +65,11 @@ const FieldLayout = ({ state }) => {
     });
   };
 
-  const handleClickField = (index) => {
-    const newField = [...state.field];
-    newField[index] = state.currentPlayer;
-    const spaces = newField.filter((item) => item === "").length;
-
-    const win = checkWin(newField, state.currentPlayer);
-    if (win) {
-      state.setIsGameEnded(true);
-    } else if (win === false && spaces === 0) {
-      state.setIsDraw(true);
-    } else {
-      state.setCurrentPlayer((prevState) => (prevState === "X" ? "0" : "X"));
-    }
-    state.setField(newField);
-  };
-
   return (
-    <>
-      <div className="field">
-        {state.field.map((item, index) => {
-          return (
-            <div
-              key={index}
-              className="button"
-              onClick={handleClickField.bind(null, index)}
-            >
-              {item}
-            </div>
-          );
-        })}
-      </div>
-    </>
-  );
-};
-
-export const Field = ({ state }) => {
-  return (
-    <>
-      <FieldLayout state={state}></FieldLayout>
-    </>
+    <FieldLayout
+      field={field}
+      handleClickField={handleClickField}
+      checkWin={checkWin}
+    />
   );
 };
