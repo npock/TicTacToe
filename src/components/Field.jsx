@@ -32,18 +32,17 @@ export const Field = () => {
 
     const win = checkWin(newField, currentPlayer);
     if (win) {
-      store.dispatch({ type: "setIsGameEnded", payload: true });
+      store.dispatch({ type: "SET_IS_GAME_ENDED", payload: true });
     } else if (win === false && spaces === 0) {
-      store.dispatch({ type: "setIsDraw", payload: true });
+      store.dispatch({ type: "SET_IS_DRAW", payload: true });
     } else if (field[index] === "") {
       store.dispatch({
-        type: "setCurrentPlayer",
+        type: "SET_CURRENT_PLAYER",
         payload: currentPlayer === "X" ? "0" : "X",
       });
     }
-
     store.dispatch({
-      type: "setField",
+      type: "SET_FIELD",
       payload: newField,
     });
     if (!isDraw && !isGameEnded) {

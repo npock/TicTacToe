@@ -12,17 +12,17 @@ const GameLayout = () => (
 
 export const Game = () => {
   const [, setGame] = useState(false);
-  store.dispatch({ type: "render", payload: setGame });
+  store.dispatch({ type: "RERENDER", payload: setGame });
 
   const resetGame = () => {
     store.getState().render((prev) => !prev);
-    store.dispatch({ type: "resetGame" });
+    store.dispatch({ type: "RESET_GAME" });
   };
 
   return (
     <>
       <GameLayout />
-      <button onClick={resetGame}> Начать заоново</button>
+      <button onClick={resetGame}>Начать заоново</button>
     </>
   );
 };

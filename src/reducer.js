@@ -8,23 +8,29 @@ export const initialState = {
 
 export const appReducer = (state = initialState, action) => {
   const { type, payload } = action;
+  const SET_IS_GAME_ENDED = "SET_IS_GAME_ENDED";
+  const SET_CURRENT_PLAYER = "SET_CURRENT_PLAYER";
+  const SET_IS_DRAW = "SET_IS_DRAW";
+  const SET_FIELD = "SET_FIELD";
+  const RESET_GAME = "RESET_GAME";
+  const RERENDER = "RERENDER";
   switch (type) {
-    case "setCurrentPlayer": {
+    case SET_CURRENT_PLAYER: {
       return { ...state, currentPlayer: payload };
     }
-    case "setIsGameEnded": {
+    case SET_IS_GAME_ENDED: {
       return { ...state, isGameEnded: payload };
     }
-    case "setIsDraw": {
+    case SET_IS_DRAW: {
       return { ...state, isDraw: payload };
     }
-    case "setField": {
+    case SET_FIELD: {
       return { ...state, field: payload };
     }
-    case "resetGame": {
+    case RESET_GAME: {
       return initialState;
     }
-    case "render": {
+    case RERENDER: {
       return { ...state, render: payload };
     }
     default:
