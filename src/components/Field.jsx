@@ -19,12 +19,14 @@ const FieldLayout = ({ field, handleClickField, checkWin }) => (
 );
 
 export const Field = () => {
-  const { field, render } = store.getState();
+  const { field, currentPlayer, render, isGameEnded, isDraw } =
+    store.getState();
 
   const handleClickField = (index, checkWin) => {
-    const { field, currentPlayer } = store.getState();
     const newField = [...field];
-    newField[index] = currentPlayer;
+    if (newField[index] === "") {
+      newField[index] = currentPlayer;
+    }
 
     const spaces = newField.filter((item) => item === "").length;
 
@@ -33,17 +35,20 @@ export const Field = () => {
       store.dispatch({ type: "setIsGameEnded", payload: true });
     } else if (win === false && spaces === 0) {
       store.dispatch({ type: "setIsDraw", payload: true });
-    } else {
+    } else if (field[index] === "") {
       store.dispatch({
         type: "setCurrentPlayer",
         payload: currentPlayer === "X" ? "0" : "X",
       });
     }
+
     store.dispatch({
       type: "setField",
       payload: newField,
     });
-    render((prev) => !prev);
+    if (!isDraw && !isGameEnded) {
+      render((prev) => !prev);
+    }
   };
 
   const checkWin = (fields, currentPlayer) => {

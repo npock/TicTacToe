@@ -5,23 +5,23 @@ import "./App.css";
 
 const GameLayout = () => (
   <>
-    <Information></Information>
-    <Field></Field>
+    <Information />
+    <Field />
   </>
 );
 
 export const Game = () => {
-  const [game, setGame] = useState(false);
+  const [, setGame] = useState(false);
   store.dispatch({ type: "render", payload: setGame });
 
   const resetGame = () => {
-    setGame((prev) => !prev);
+    store.getState().render((prev) => !prev);
     store.dispatch({ type: "resetGame" });
   };
 
   return (
     <>
-      <GameLayout setGame={setGame}></GameLayout>
+      <GameLayout />
       <button onClick={resetGame}> Начать заоново</button>
     </>
   );
