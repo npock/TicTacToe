@@ -30,9 +30,6 @@ export const appReducer = (state = initialState, action) => {
     case RESET_GAME: {
       return initialState;
     }
-    case RERENDER: {
-      return { ...state, render: payload };
-    }
     default:
       return state;
   }

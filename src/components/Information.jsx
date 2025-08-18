@@ -1,4 +1,5 @@
-import { store } from "../store";
+// import { store } from "../store";
+import { useSelector } from "react-redux";
 
 const InformationLayout = ({ currentPlayer, isGameEnded, isDraw }) => (
   <>
@@ -13,7 +14,10 @@ const InformationLayout = ({ currentPlayer, isGameEnded, isDraw }) => (
 );
 
 export const Information = () => {
-  const { currentPlayer, isGameEnded, isDraw } = store.getState();
+  //const { currentPlayer, isGameEnded, isDraw } = store.getState();
+  const currentPlayer = useSelector((state) => state.currentPlayer);
+  const isGameEnded = useSelector((state) => state.isGameEnded);
+  const isDraw = useSelector((state) => state.isDraw);
 
   return (
     <>

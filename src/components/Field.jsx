@@ -1,4 +1,6 @@
-import { store } from "../store";
+//import { store } from "../store";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 const FieldLayout = ({ field, handleClickField, checkWin }) => (
   <>
@@ -19,8 +21,12 @@ const FieldLayout = ({ field, handleClickField, checkWin }) => (
 );
 
 export const Field = () => {
-  const { field, currentPlayer, render, isGameEnded, isDraw } =
-    store.getState();
+  const dispatch = useDispatch();
+
+  const currentPlayer = useSelector((state) => state.currentPlayer);
+  const isGameEnded = useSelector((state) => state.isGameEnded);
+  const isDraw = useSelector((state) => state.isDraw);
+  const field = useSelector((state) => state.field);
 
   const handleClickField = (index, checkWin) => {
     const newField = [...field];
@@ -32,21 +38,21 @@ export const Field = () => {
 
     const win = checkWin(newField, currentPlayer);
     if (win) {
-      store.dispatch({ type: "SET_IS_GAME_ENDED", payload: true });
+      dispatch({ type: "SET_IS_GAME_ENDED", payload: true });
     } else if (win === false && spaces === 0) {
-      store.dispatch({ type: "SET_IS_DRAW", payload: true });
+      dispatch({ type: "SET_IS_DRAW", payload: true });
     } else if (field[index] === "") {
-      store.dispatch({
+      dispatch({
         type: "SET_CURRENT_PLAYER",
         payload: currentPlayer === "X" ? "0" : "X",
       });
     }
-    store.dispatch({
-      type: "SET_FIELD",
-      payload: newField,
-    });
+
     if (!isDraw && !isGameEnded) {
-      render((prev) => !prev);
+      dispatch({
+        type: "SET_FIELD",
+        payload: newField,
+      });
     }
   };
 

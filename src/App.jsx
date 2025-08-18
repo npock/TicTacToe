@@ -1,6 +1,7 @@
 import { Field, Information } from "./components";
-import { store } from "./store";
-import { useState } from "react";
+//import { store } from "./store";
+import { useDispatch } from "react-redux";
+//import { useState } from "react";
 import "./App.css";
 
 const GameLayout = () => (
@@ -11,12 +12,9 @@ const GameLayout = () => (
 );
 
 export const Game = () => {
-  const [, setGame] = useState(false);
-  store.dispatch({ type: "RERENDER", payload: setGame });
-
+  const dispatch = useDispatch();
   const resetGame = () => {
-    store.getState().render((prev) => !prev);
-    store.dispatch({ type: "RESET_GAME" });
+    dispatch({ type: "RESET_GAME" });
   };
 
   return (
