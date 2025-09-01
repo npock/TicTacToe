@@ -16,6 +16,7 @@ h1 {
   width: 180px;
   display: flex;
   flex-wrap: wrap;
+  margin: auto;
 
   font-size: 0.9em;
   font-family: sans-serif;
